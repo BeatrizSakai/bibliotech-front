@@ -1,0 +1,31 @@
+#bodyLogin{
+    height: 100vh;
+    margin: 0;
+    background-image: url('../imagens/background.png') !important;
+    background-repeat: no-repeat;
+    display: flex;
+}
+.conteiner{
+    justify-self: center;
+    width: 50%;
+    background-color: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 4%;
+    border-radius: 19px;
+}
+.titulo{
+    margin-bottom: 3%;
+}
+.link{
+    color: #3153C0 !important ;
+    text-decoration: underline !important;
+}
+.login{
+    background-color: #3153C0;
+}
+.botaoLogin{
+    text-align: center;
+}
