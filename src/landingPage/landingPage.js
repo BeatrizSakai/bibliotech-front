@@ -5,7 +5,7 @@ import vetor from '../imagens/vetor.png'
 import imagem from '../imagens/imgLanding.png'
 import estrelas from '../imagens/Estrelas.png'
 import livros from '../imagens/livros.png'
-import imgLivro from '../imagens/imgLivro.jpg'
+import imgLivro from '../imagens/imgLivro.png'
 import footerImage from '../imagens/footer.png'
 
 class LandingPage extends React.Component {

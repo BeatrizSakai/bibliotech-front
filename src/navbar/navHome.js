@@ -7,16 +7,22 @@ class Navbar extends React.Component {
     render() {
     return (
         <nav>
-            <img src={logo} alt="Logo"/> {/* Adiciona a imagem da logo */}
-            <ul>
+            <div className='content'>
+                <img src={logo} alt="Logo"/> 
                 <li><a href="/">Inicio</a></li>
                 <li><a href="/home">Home</a></li>
-                <form className="d-flex buscar" role="buscar">
-                    <input className="form-control me-2" type="search" placeholder="Buscar livro/autor" aria-label="buscar"></input>
+                <form className="d-flex buscar">
+                    <input className="form-control me-2 barra" type="search" placeholder="Buscar livro/autor" aria-label="buscar"></input>
                     <button className="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
-            </ul>
-            <img src={avatar} alt="avatar" className='avatar'/> {/* Adiciona a imagem da logo */}
+                <button className="btn btn-primary">
+                    <a href="/cadastroLivro">Cadastrar Livro</a>
+                </button>
+                
+                <img src={avatar} alt="avatar" className='avatar'/>
+                
+                
+            </div>
         </nav>
     );
 }

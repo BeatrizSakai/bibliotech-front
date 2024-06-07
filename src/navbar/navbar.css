@@ -7,20 +7,26 @@ nav {
     display: flex;
     align-items: center; 
     z-index: 110;
+    justify-content: space-between;
+}
+.barra{
+    width: 300px !important;
+}
+.btn-primary{
+    background-color: #06048C !important;
+    border-color: transparent !important;
+}
+.btn-outline-success{
+    border-color: #FFFFFF !important;
 }
 
-ul {
+.content {
     list-style-type: none;
     margin: 0 !important;
     padding: 0;
     display: flex;
     align-items: center !important;
-}
-
-li {
-    display: inline;
-    margin-right: 30px;
-    
+    gap: 3%;
 }
 
 a {
@@ -31,14 +37,10 @@ a {
 a:hover {
     color: #06048C; 
 }
-.buscar{
-    margin-left: 20%;
-    width: 600px;
-}
+
 .btn{
-    border-color: #FFFFFF !important;
     color: #FFFFFF !important;
-    
+    white-space: nowrap;
 }
 .btn:hover{
     background-color: #06048C !important;
@@ -46,7 +48,8 @@ a:hover {
 .avatar{
     width: 35px;
     height: auto;
-    margin-left: 350px;
+    left: 4%;
+    position: relative;
 }
 
 @media screen and (max-width: 768px) {
@@ -61,3 +64,4 @@ a:hover {
         font-size: large;
     }
 }
+

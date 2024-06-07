@@ -1,0 +1,7 @@
+#bodyCadastro{
+    height: 100vh;
+    margin: 0;
+    background-image: url('../imagens/background.png') !important;
+    background-repeat: no-repeat;
+    display: flex;
+}

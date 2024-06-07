@@ -5,11 +5,11 @@ class Navbar extends React.Component {
     render() {
     return (
         <nav class="cabecalho__container">
-            <img src={logo} alt="Logo" className='logo'/> {/* Adiciona a imagem da logo */}
-            <ul>
+            <div className='content'>
+               <img src={logo} alt="Logo" className='logo'/> {/* Adiciona a imagem da logo */}
                 <li><a href="/home">Home</a></li>
                 <li><a href="/login">Login</a></li>
-            </ul>
+            </div>
         </nav>
     );
 }
