@@ -1,12 +1,11 @@
 import './App.css';
-import Navbar from './navbar/navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './landingPage/landingPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './homePage/homePage'; 
 import LoginPage from './Login/loginPage';
 import CadastroPage from './Cadastro/cadastroPage';
-import PerfilPage from './Perfil/perfil';
+import PerfilPage from './Perfil/perfilPage';
 import React from 'react';
 import CadastroLivroPage from './CadastroLivro/cadastroLivroPage';
 import PrivateRoute from './Private/privateRoute'; // Importe o componente PrivateRoute

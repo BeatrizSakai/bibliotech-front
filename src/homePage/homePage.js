@@ -13,33 +13,76 @@ import { useNavigate } from 'react-router-dom';
 function HomePage() {
     const [show, setShow] = useState(false);
     const [modalType, setModalType] = useState('livro');
+    const [modalData, setModalData] = useState(null);
+    const [editData, setEditData] = useState({});
+    const [data, setData] = useState([]);
+    const [filteredData, setFilteredData] = useState([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [bookToDelete, setBookToDelete] = useState(null);
     const navigate = useNavigate();
-    const handleClose = () => setShow(false);
 
+    const handleClose = () => setShow(false);
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login');
-    }
-
-    const [modalData, setModalData] = useState(null);
+    };
 
     const handleShow = (modalType, bookData) => {
         setModalType(modalType);
         setModalData(bookData);
+        setEditData(bookData || {}); // Iniciar o formulário de edição com os dados do livro
         setShow(true);
-    }
+    };
 
-    const [data, setData] = useState([]);
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditData({ ...editData, [name]: value });
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:8080/books/${editData.id}`, editData);
+            setShow(false);
+            getBooks(); // Atualize a lista de livros após a edição
+        } catch (error) {
+            console.error("Erro ao editar livro:", error);
+        }
+    };
+
+    const handleDeleteBook = (book) => {
+        setBookToDelete(book);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDeleteBook = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/books/${bookToDelete.id}`);
+            setShowDeleteModal(false);
+            getBooks(); // Atualize a lista de livros após a exclusão
+        } catch (error) {
+            console.error("Erro ao deletar livro:", error);
+        }
+    };
 
     const getBooks = async () => {
         await axios.get("http://localhost:8080/books")
         .then((response) => {
             console.log("Books data received from API:", response.data.books);
             setData(response.data.books);
+            setFilteredData(response.data.books);
         }).catch((err) => {
             console.error(err);
         });
-    }
+    };
+
+    const handleSearch = (searchTerm) => {
+        const filteredBooks = data.filter(book =>
+            book.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            book.autor.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredData(filteredBooks);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -50,14 +93,12 @@ function HomePage() {
         }
     }, [navigate]);
 
-    
-
     return (
         <>
             <div className="bodyHome">
-                <Navbar />
+                <Navbar onSearch={handleSearch} />
                 <div className="row row-cols-1 row-cols-md-5 cards">
-                    {data.map(book => (
+                    {filteredData.map(book => (
                         <div className="col" key={book.id}>
                             <div className="card cardH" onClick={() => handleShow('mostrarLivro', book)}>
                                 <img 
@@ -68,14 +109,7 @@ function HomePage() {
                                 />
                                 <div className="card-body">
                                     <h6 className="card-title">{book.titulo}</h6>
-                                    <p className="card-text">{book.autor}</p>
-                                    <button 
-                                        variant="primary" 
-                                        className="btn btn-primary btnReservar" 
-                                        onClick={() => handleShow('reservar', book)}
-                                    >
-                                        Reservar
-                                    </button> 
+                                    <p className="card-text">{book.autor}</p> 
                                 </div>
                             </div>
                         </div>
@@ -138,15 +172,104 @@ function HomePage() {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancelar
+                    <Button variant="primary" onClick={() => handleShow('editarLivro', modalData)}>
+                        Editar
                     </Button>
-                    <Button variant="primary" onClick={() => handleShow('reservar')}>
-                        Reservar
+                    <Button variant="danger" onClick={() => handleDeleteBook(modalData)}>
+                        Deletar
                     </Button>
                 </Modal.Footer>
             </Modal>
-            
+
+            <Modal show={show && modalType === 'editarLivro'} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Editar Livro</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleEditSubmit}>
+                        <Form.Group>
+                            <Form.Label>Título</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="titulo"
+                                value={editData.titulo || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Autor</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="autor"
+                                value={editData.autor || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Ano de Publicação</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="ano_publicacao"
+                                value={editData.ano_publicacao || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Gênero</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="genero"
+                                value={editData.genero || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Sinopse</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="sinopse"
+                                value={editData.sinopse || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>URL da Imagem</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="imageUrl"
+                                value={editData.imageUrl || ''}
+                                onChange={handleEditChange}
+                            />
+                        </Form.Group>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleClose}>
+                                Cancelar
+                            </Button>
+                            <Button variant="primary" type="submit">
+                                Salvar
+                            </Button>
+                        </Modal.Footer>
+                    </Form>
+                </Modal.Body>
+            </Modal>
+
+            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Confirmar Exclusão</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Tem certeza de que deseja deletar o livro "{bookToDelete?.titulo}"?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+                        Cancelar
+                    </Button>
+                    <Button variant="danger" onClick={confirmDeleteBook}>
+                        Deletar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <Button variant="danger" onClick={handleLogout}>Logout</Button>
         </>
     );
