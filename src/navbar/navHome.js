@@ -51,7 +51,7 @@ function NavHome({ onSearch }) {
                             )}
                             <DropdownButton className="ms-auto" align="end" title={<img className='menuImg' src={menu} alt="menu" />}>
                                 <Dropdown.Item eventKey="1" href='/perfil'>Meu perfil</Dropdown.Item>
-                                <Dropdown.Item eventKey="2">Alguma coisa</Dropdown.Item>
+                                <Dropdown.Item eventKey="2" href='/meusEmprestimos'>Meus empréstimos</Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item onClick={handleLogout} eventKey="4">Sair</Dropdown.Item>
                             </DropdownButton>

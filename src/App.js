@@ -9,6 +9,7 @@ import PerfilPage from './Perfil/perfilPage';
 import React from 'react';
 import CadastroLivroPage from './CadastroLivro/cadastroLivroPage';
 import PrivateRoute from './Private/privateRoute'; // Importe o componente PrivateRoute
+import MeusEmprestimosPage from './Emprestimos/meusEmprestimosPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/perfil" element={<PrivateRoute element={PerfilPage} />} />
           <Route path="/cadastroLivro" element={<PrivateRoute element={CadastroLivroPage} />} />
           <Route path="/home" element={<PrivateRoute element={HomePage} />} />
+          <Route path="/meusEmprestimos" element={<PrivateRoute element={MeusEmprestimosPage} />} />
         </Routes>
       </div>
     </Router>

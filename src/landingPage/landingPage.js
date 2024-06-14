@@ -25,7 +25,7 @@ class LandingPage extends React.Component {
                                     Encontre seu próximo livro favorito em nossa coleção cuidadosamente selecionada. Com uma interface amigável e ferramentas de busca poderosas, descubra uma nova maneira de explorar o mundo do conhecimento. Junte-se a nós e desbloqueie um universo de aprendizado ao seu alcance.
                                     </p>
                                     <div className="botoes">
-                                        <a href="./home">
+                                        <a href="./cadastro">
                                             <button  className="btn btn-primary btn1 botao"  >
                                                 Comece Agora
                                             </button>  

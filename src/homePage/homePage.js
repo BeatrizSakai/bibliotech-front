@@ -89,8 +89,133 @@ function HomePage() {
         }
     }, [navigate]);
 
+    const [selectedBookId, setSelectedBookId] = useState(null);
+    const [showEmprestimoModal, setShowEmprestimoModal] = useState(false);
+    const [dataEmprestimo, setDataEmprestimo] = useState('');
+
+    const handleShowEmprestimoModal = (livroId) => {
+        setSelectedBookId(livroId);
+        setShowEmprestimoModal(true);
+    };
+
+    const handleCloseEmprestimoModal = () => {
+        setShowEmprestimoModal(false);
+        setSelectedBookId(null);
+        setDataEmprestimo('');
+    };
+
+    const handleReservar = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.error('Token not found. User might not be authenticated.');
+            navigate('/login');
+            return;
+        }
+    
+        // Verifique se o ID do livro está definido corretamente
+        console.log('Selected Book ID:', selectedBookId);
+    
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/emprestimos',
+                {
+                    livroId: selectedBookId,
+                    data_emprestimo: dataEmprestimo
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+    
+            console.log('Empréstimo criado:', response.data);
+            setShowEmprestimoModal(false);
+            // Após criar o empréstimo, você pode querer atualizar a lista de livros ou realizar outras ações necessárias
+        } catch (error) {
+            console.error('Erro ao criar empréstimo:', error);
+            if (error.response && error.response.status === 403) {
+                console.error('Access denied: You do not have permission to perform this action.');
+                // Redirecionar ou exibir mensagem de erro apropriada
+            }
+        }
+    };
+    
+    const [emprestimos, setEmprestimos] = useState([]);
+
+    useEffect(() => {
+        // Função para carregar os empréstimos do usuário
+        const carregarEmprestimos = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get("http://localhost:8080/emprestimos", {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                setEmprestimos(response.data);
+            } catch (error) {
+                console.error("Erro ao carregar empréstimos:", error);
+            }
+        };
+
+        carregarEmprestimos();
+    }, []);
+
+    const handleDevolucao = async (emprestimoId) => {
+        try {
+            const token = localStorage.getItem('token');
+            await axios.put(`http://localhost:8080/emprestimos/${emprestimoId}/devolucao`, null, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            // Atualizar a lista de empréstimos após a devolução
+            const updatedEmprestimos = emprestimos.map(emprestimo => {
+                if (emprestimo.id === emprestimoId) {
+                    return { ...emprestimo, data_devolucao: new Date() };
+                }
+                return emprestimo;
+            });
+            setEmprestimos(updatedEmprestimos);
+        } catch (error) {
+            console.error("Erro ao registrar devolução:", error);
+        }
+    };
+
     return (
         <>
+            {showEmprestimoModal && (
+            <Modal show={showEmprestimoModal} onHide={handleCloseEmprestimoModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Reservar Livro</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Row>
+                            <Col>
+                                <Form.Group>
+                                    <Form.Label>Data da reserva</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        value={dataEmprestimo}
+                                        onChange={(e) => setDataEmprestimo(e.target.value)}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEmprestimoModal}>
+                        Cancelar
+                    </Button>
+                    <Button variant="primary botao" onClick={handleReservar}>
+                        Emprestar
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        )}
             <div className="bodyHome">
                 <NavHome onSearch={handleSearch} />
                 <div className="cadastroLivro">
@@ -102,8 +227,8 @@ function HomePage() {
                 <div className="row row-cols-1 row-cols-md-5 cards">
                     {filteredData.map(book => (
                         <div className="col" key={book.id}>
-                            <div className="card cardH" onClick={() => handleShow('mostrarLivro', book)}>
-                                <img 
+                            <div className="card cardH" >
+                                <img onClick={() => handleShow('mostrarLivro', book)}
                                     className="imgLivroHome" 
                                     src={book.imageUrl ? book.imageUrl : imgLivro} 
                                     alt={book.titulo}
@@ -112,44 +237,15 @@ function HomePage() {
                                 <div className="card-body">
                                     <h6 className="card-title">{book.titulo}</h6>
                                     <p className="card-text">{book.autor}</p> 
+                                    <button className="btn btn-primary botao" onClick={() => handleShowEmprestimoModal(book.id)}>
+                                        Emprestar
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-
-            <Modal show={show && modalType === 'reservar'} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Reservar Livro</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Row>
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label>Data da reserva</Form.Label>
-                                    <Form.Control type="date" />
-                                </Form.Group>
-                            </Col>
-                            <Col>
-                                <Form.Group>
-                                    <Form.Label>Data da devolução</Form.Label>
-                                    <Form.Control type="date" />
-                                </Form.Group>
-                            </Col>
-                        </Row>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancelar
-                    </Button>
-                    <Button variant="primary" onClick={handleClose}>
-                        Reservar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
 
             <Modal show={show && modalType === 'mostrarLivro'} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -276,3 +372,4 @@ function HomePage() {
 }
 
 export default HomePage;
+
