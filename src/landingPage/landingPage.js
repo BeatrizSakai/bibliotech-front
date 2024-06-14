@@ -4,10 +4,10 @@ import Navbar from "../navbar/navbar";
 import vetor from '../imagens/vetor.png'
 import imagem from '../imagens/imgLanding.png'
 import estrelas from '../imagens/Estrelas.png'
-import livros from '../imagens/livros.png'
-import imgLivro from '../imagens/imgLivro.png'
 import footerImage from '../imagens/footer.png'
-
+import livro1 from '../imagens/livro1.jpg'
+import livro2 from '../imagens/livro2.jpg'
+import livro3 from '../imagens/livro3.jpg'
 class LandingPage extends React.Component {
     render(){
         return (
@@ -25,9 +25,12 @@ class LandingPage extends React.Component {
                                     Encontre seu próximo livro favorito em nossa coleção cuidadosamente selecionada. Com uma interface amigável e ferramentas de busca poderosas, descubra uma nova maneira de explorar o mundo do conhecimento. Junte-se a nós e desbloqueie um universo de aprendizado ao seu alcance.
                                     </p>
                                     <div className="botoes">
-                                        <button  className="btn btn-primary btn1" href="/login" >
-                                        Comece Agora
-                                        </button>  
+                                        <a href="./home">
+                                            <button  className="btn btn-primary btn1 botao"  >
+                                                Comece Agora
+                                            </button>  
+                                        </a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -45,31 +48,38 @@ class LandingPage extends React.Component {
                         </div>
                         <div className="row row-cols-1 row-cols-md-3 g-4 cards">
                             <div className="col">
-                                <div className="card">
-                                <img className="imgLivro" src={imgLivro} alt="imgLivro" /> {/* Adiciona a imagem da logo */}
-                                <div className="card-body">
-                                    <h5 className="card-title">Harry Potter e a Pedra Filosofal</h5>
-                                    <p className="card-text">TJ.K. Rowling</p>
-                                </div>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="card">
-                                <img className="imgLivro" src={imgLivro} alt="imgLivro" /> {/* Adiciona a imagem da logo */}
-                                <div className="card-body">
-                                    <h5 className="card-title">Harry Potter e a Pedra Filosofal</h5>
-                                    <p className="card-text">TJ.K. Rowling</p>
-                                </div>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <div className="card">
-                                    <img className="imgLivro" src={imgLivro} alt="imgLivro" /> {/* Adiciona a imagem da logo */}
-                                    <div className="card-body">
-                                        <h5 className="card-title">Harry Potter e a Pedra Filosofal</h5>
-                                        <p className="card-text">J.K. Rowling</p>
+                                <a href="./home">
+                                    <div className="card">
+                                        <img className="imgLivro" src={livro1} alt="imgLivro" /> 
+                                        <div className="card-body">
+                                            <h5 className="card-title">O grande Gatsby</h5>
+                                            <p className="card-text">F. Scott Fitzgerald</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
+                                
+                            </div>
+                            <div className="col">
+                                <a href="./home">
+                                    <div className="card" >
+                                    <img className="imgLivro" src={livro2} alt="imgLivro" />
+                                    <div className="card-body">
+                                        <h5 className="card-title">Crepúsculo</h5>
+                                        <p className="card-text">Stephenie Meyer</p>
+                                    </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div className="col">
+                                <a href="./home">
+                                    <div className="card">
+                                        <img className="imgLivro" src={livro3} alt="imgLivro" /> {/* Adiciona a imagem da logo */}
+                                        <div className="card-body">
+                                            <h5 className="card-title">Outsider</h5>
+                                            <p className="card-text">Stephen King</p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>

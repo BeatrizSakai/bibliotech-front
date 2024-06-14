@@ -77,7 +77,12 @@
 }
 .imgLivro{
     border-radius: 19px !important;
+    height: 400px;
 }
 footer{
     bottom: 0 !important;
+}
+.botao{
+    background-color: #3153C0 !important;
+    border-color: transparent !important;
 }

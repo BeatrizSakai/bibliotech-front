@@ -157,11 +157,14 @@ const PerfilPage = () => {
                         <div>
                             {editMode ? (
                                 <>
-                                    <button className="btn btn-primary" type="button" onClick={handleSubmit}>Salvar</button>
-                                    <button className="btn btn-danger" type="button" onClick={handleCancel}>Cancelar</button>
+                                    <button className="btn btn-primary botao" type="button" onClick={handleSubmit}>Salvar</button>
+                                    <Button variant="secondary" onClick={handleCancel}>
+                                        Cancelar
+                                    </Button>
+        
                                 </>
                             ) : (
-                                <button className="btn btn-primary" type="button" onClick={handleEdit}>Editar</button>
+                                <button className="btn btn-primary botao" type="button" onClick={handleEdit}>Editar</button>
                             )}
                         </div>
                         <div className='excluirPerfil'>

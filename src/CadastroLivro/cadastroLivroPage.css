@@ -5,3 +5,12 @@
     background-repeat: no-repeat;
     display: flex;
 }
+.login{
+    a{
+        text-decoration: none !important;  
+        color: #FFFFFF
+    };
+    background-color: #3153C0 !important;
+    border-color: transparent !important;
+    
+}

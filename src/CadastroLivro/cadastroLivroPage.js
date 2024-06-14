@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import './cadastroLivroPage.css'
+import './cadastroLivroPage.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function CadastroLivroPage() {
     const [data, setData] = useState({
@@ -14,6 +15,7 @@ export default function CadastroLivroPage() {
     });
 
     const [imageFile, setImageFile] = useState(null);
+    const navigate = useNavigate();
 
     const valueInput = (e) => setData({ ...data, [e.target.name]: e.target.value });
 
@@ -48,6 +50,9 @@ export default function CadastroLivroPage() {
             const bookData = { ...data, imageUrl: url.split('?')[0] };
             const responseBook = await axios.post('http://localhost:8080/books', bookData);
             console.log(responseBook.data.mensagem);
+
+            // Redirecionar para a página Home após o cadastro
+            navigate('/home');
         } catch (error) {
             console.error('Error fetching S3 URL or uploading image:', error);
         }
@@ -57,7 +62,7 @@ export default function CadastroLivroPage() {
         <div id="bodyCadastro">
             <div className="conteiner">
                 <div className="forms">
-                    <h3 className="titulo">Cadastro de Livro</h3>
+                    <h3>Cadastro de Livro</h3>
                     <p>Preencha as informações do livro</p>
                     <Form id="imageForm" onSubmit={addBook}>
                         <input id="imageInput" type="file" accept="image/*" onChange={handleImageChange} />

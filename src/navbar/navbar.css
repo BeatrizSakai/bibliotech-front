@@ -9,17 +9,24 @@ nav {
     z-index: 110;
     justify-content: space-between;
 }
+.container-fluid{
+    display: flex;
+    align-items: center; 
+    gap: 20px;
+}
 .barra{
     width: 300px !important;
 }
 .btn-primary{
-    background-color: #06048C !important;
+    background-color: transparent !important;
     border-color: transparent !important;
 }
 .btn-outline-success{
     border-color: #FFFFFF !important;
 }
-
+.d-flex{
+    margin-left: 100px;
+}
 .content {
     list-style-type: none;
     margin: 0 !important;
@@ -29,11 +36,13 @@ nav {
     gap: 3%;
 }
 
-a {
+.links {
     color: white !important;
     text-decoration: none !important;
 }
-
+.navbar-toggler {
+    margin-left: 400px;
+}
 a:hover {
     color: #06048C; 
 }
@@ -63,5 +72,11 @@ a:hover {
     .ul{
         font-size: large;
     }
+}
+.menuImg{
+    height: 30px;
+}
+a{
+    text-decoration: none !important;
 }
 

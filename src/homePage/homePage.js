@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './homePage.css';
-import Navbar from "../navbar/navHome";
+import NavHome from "../navbar/navHome";
 import imgLivro from '../imagens/imgLivro.png';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -22,10 +22,6 @@ function HomePage() {
     const navigate = useNavigate();
 
     const handleClose = () => setShow(false);
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
-    };
 
     const handleShow = (modalType, bookData) => {
         setModalType(modalType);
@@ -96,13 +92,19 @@ function HomePage() {
     return (
         <>
             <div className="bodyHome">
-                <Navbar onSearch={handleSearch} />
+                <NavHome onSearch={handleSearch} />
+                <div className="cadastroLivro">
+                    <button className="btn btn-primary cadastro">
+                        <a href="/cadastroLivro">Cadastrar Livro</a>
+                    </button>
+                </div>
+                
                 <div className="row row-cols-1 row-cols-md-5 cards">
                     {filteredData.map(book => (
                         <div className="col" key={book.id}>
                             <div className="card cardH" onClick={() => handleShow('mostrarLivro', book)}>
                                 <img 
-                                    className="imgLivro" 
+                                    className="imgLivroHome" 
                                     src={book.imageUrl ? book.imageUrl : imgLivro} 
                                     alt={book.titulo}
                                     onError={(e) => { e.target.onerror = null; e.target.src = imgLivro; }}
@@ -172,7 +174,7 @@ function HomePage() {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => handleShow('editarLivro', modalData)}>
+                    <Button className="botao" variant="primary" onClick={() => handleShow('editarLivro', modalData)}>
                         Editar
                     </Button>
                     <Button variant="danger" onClick={() => handleDeleteBook(modalData)}>
@@ -245,7 +247,7 @@ function HomePage() {
                             <Button variant="secondary" onClick={handleClose}>
                                 Cancelar
                             </Button>
-                            <Button variant="primary" type="submit">
+                            <Button className="botao" variant="primary" type="submit">
                                 Salvar
                             </Button>
                         </Modal.Footer>
@@ -269,8 +271,6 @@ function HomePage() {
                     </Button>
                 </Modal.Footer>
             </Modal>
-
-            <Button variant="danger" onClick={handleLogout}>Logout</Button>
         </>
     );
 }

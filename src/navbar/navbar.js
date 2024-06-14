@@ -7,8 +7,8 @@ class Navbar extends React.Component {
         <nav class="cabecalho__container">
             <div className='content'>
                <img src={logo} alt="Logo" className='logo'/> {/* Adiciona a imagem da logo */}
-                <li><a href="/home">Home</a></li>
-                <li><a href="/login">Login</a></li>
+                <a className='links' href="/home">Home</a>
+                <a className='links' href="/login">Login</a>
             </div>
         </nav>
     );
